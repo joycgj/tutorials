@@ -36,7 +36,7 @@ public class DebeziumListener {
 
         this.debeziumEngine = DebeziumEngine.create(ChangeEventFormat.of(Connect.class))
             .using(customerConnectorConfiguration.asProperties())
-            .notifying(this::handleChangeEvent)
+            .notifying(new MyChangeConsumer(customerService))
             .build();
 
         this.customerService = customerService;
