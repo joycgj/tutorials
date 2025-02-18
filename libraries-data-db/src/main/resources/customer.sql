@@ -7,3 +7,10 @@ CREATE TABLE customer
     email character varying(255),
     CONSTRAINT customer_pkey PRIMARY KEY (id)
 );
+
+--这样访问
+mysql -h127.0.0.1 -P13306 -uroot -p
+mysql -h127.0.0.1 -P13305 -uroot -p
+
+--添加列
+ALTER TABLE customer ADD sex integer;
