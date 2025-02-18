@@ -9,8 +9,9 @@ CREATE TABLE customer
 );
 
 --这样访问
-mysql -h127.0.0.1 -P13306 -uroot -p
-mysql -h127.0.0.1 -P13305 -uroot -p
+docker exec -it dbz-mysql-master mysql -uroot -proot
+docker exec -it dbz-mysql-slave mysql -uroot -proot
+docker exec -it dbz-mysql-target mysql -uroot -proot
 
 --添加列
 ALTER TABLE customer ADD sex integer;
