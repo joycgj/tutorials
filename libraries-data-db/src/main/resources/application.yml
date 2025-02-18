@@ -5,7 +5,7 @@ server:
 ## Primary/Target Database Properties
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/customerdb
+    url: jdbc:mysql://localhost:13306/customerdb
     username: root
     password: root
   jpa.hibernate.ddl-auto: create-drop
@@ -15,7 +15,7 @@ spring:
 customer:
   datasource:
     host: localhost
-    port: 3305
+    port: 23307
     database: customerdb
     username: root
     password: root
