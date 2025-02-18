@@ -11,3 +11,7 @@ This module contains articles about database-related data processing libraries.
 - [Introduction to HikariCP](https://www.baeldung.com/hikaricp)
 - [Guide to Ebean ORM](https://www.baeldung.com/ebean-orm)
 - [Introduction to Debezium](https://www.baeldung.com/debezium-intro)
+
+
+1. docker-compose.xml 请使用 https://github.com/joycgj/mysql-replication，包含source和target，其中source为主从复制
+2. 
