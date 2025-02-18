@@ -13,5 +13,11 @@ This module contains articles about database-related data processing libraries.
 - [Introduction to Debezium](https://www.baeldung.com/debezium-intro)
 
 
-1. docker-compose.xml 请使用 https://github.com/joycgj/mysql-replication，包含source和target，其中source为主从复制
-2. 
+docker-compose.xml 请使用 https://github.com/joycgj/mysql-replication，包含source和target，其中source为主从复制
+
+如何推送一个已经存在origin的项目到github上
+1. 在github.com上创建一个repository
+2. git remote rm origin
+3. git remote add origin git@github.com:joycgj/tutorials.git 
+4. git branch -M main
+5. git push -u origin main
