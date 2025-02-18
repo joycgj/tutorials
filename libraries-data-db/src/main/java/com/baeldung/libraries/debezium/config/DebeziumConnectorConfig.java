@@ -53,6 +53,7 @@ public class DebeziumConnectorConfig {
             .with("database.server.name", "customer-mysql-db-server")
             .with("database.history", "io.debezium.relational.history.FileDatabaseHistory")
             .with("database.history.file.filename", dbHistoryTempFile.getAbsolutePath())
+                .with("snapshot.mode", "schema_only") // Add by Joy
             .build();
     }
 }
