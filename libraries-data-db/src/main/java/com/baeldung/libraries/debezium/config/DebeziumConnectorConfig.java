@@ -1,5 +1,6 @@
 package com.baeldung.libraries.debezium.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import java.io.File;
 import java.io.IOException;
 
+@Slf4j
 @Configuration
 public class DebeziumConnectorConfig {
 
@@ -33,13 +35,38 @@ public class DebeziumConnectorConfig {
      */
     @Bean
     public io.debezium.config.Configuration customerConnector() throws IOException {
-        File offsetStorageTempFile = File.createTempFile("offsets_", ".dat");
-        File dbHistoryTempFile = File.createTempFile("dbhistory_", ".dat");
+        String rootPath = System.getProperty("user.dir");
+
+        File dir = new File(rootPath + "/metadata");
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
+        File offsetStorageFile = new File(rootPath + "/metadata/offsets.dat");
+        File dbHistoryFile = new File(rootPath + "/metadata/dbhistory.dat");
+        if (!offsetStorageFile.exists()) {
+            try {
+                offsetStorageFile.createNewFile();
+                log.info("Create offsetStorageFile: {}", offsetStorageFile.getAbsolutePath());
+            } catch (IOException e) {
+                log.error("Error while creating offsetStorageFile: {}", offsetStorageFile.getAbsolutePath(), e);
+            }
+        }
+        if (!dbHistoryFile.exists()) {
+            try {
+                dbHistoryFile.createNewFile();
+                log.info("Create dbHistoryFile: {}", dbHistoryFile.getAbsolutePath());
+            } catch (IOException e) {
+                log.error("Error while creating dbHistoryFile: {}", dbHistoryFile.getAbsolutePath(), e);
+            }
+        }
+//        File offsetStorageTempFile = File.createTempFile("offsets_", ".dat");
+//        File dbHistoryTempFile = File.createTempFile("dbhistory_", ".dat");
         return io.debezium.config.Configuration.create()
             .with("name", "customer-mysql-connector")
             .with("connector.class", "io.debezium.connector.mysql.MySqlConnector")
             .with("offset.storage", "org.apache.kafka.connect.storage.FileOffsetBackingStore")
-            .with("offset.storage.file.filename", offsetStorageTempFile.getAbsolutePath())
+            .with("offset.storage.file.filename", offsetStorageFile.getAbsolutePath())
             .with("offset.flush.interval.ms", "60000")
             .with("database.hostname", customerDbHost)
             .with("database.port", customerDbPort)
@@ -52,7 +79,7 @@ public class DebeziumConnectorConfig {
             .with("database.server.id", "10181")
             .with("database.server.name", "customer-mysql-db-server")
             .with("database.history", "io.debezium.relational.history.FileDatabaseHistory")
-            .with("database.history.file.filename", dbHistoryTempFile.getAbsolutePath())
+            .with("database.history.file.filename", dbHistoryFile.getAbsolutePath())
                 .with("snapshot.mode", "schema_only") // Add by Joy
             .build();
     }
